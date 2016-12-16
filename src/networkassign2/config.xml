@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Configuration Input Helper XML-->
+<root>
+    <w>15</w>
+    <winverse>8</winverse>
+    <n>17</n>
+    <s>1,2,4,9</s>
+    <plaintext>0,1,0,0,1,0,1,1,1,0,1,0,0,1,0,1</plaintext>
+</root>
