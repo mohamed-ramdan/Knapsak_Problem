@@ -171,8 +171,7 @@ public class NetworkAssign2 {
             // Decryption
             int decryptedMsgList [] = decrypt(encryptedMsgList,wInverse, n);
 
-            // convert the decryption to binary based on the private key S.
-            String [] toBinary = makeMeBinary(decryptedMsgList, s, subSize);
+            
 
 
             System.out.println("");
@@ -182,23 +181,24 @@ public class NetworkAssign2 {
             // Logging the decryption calculations
             for(int i=0; i< H.length;i++)
             {
-                System.out.println(H[i]+" * "+wInverse+" = "+ (H[i]+wInverse) + " % "+n+" = "+decryptedMsgList[i] + " = " +toBinary[i]);
+                System.out.println(H[i]+" * "+wInverse+" = "+ (H[i]+wInverse) + " % "+n+" = "+decryptedMsgList[i] );
             }
 
             System.out.println("");
             System.out.println("");
 
-            // Logging the plain text decrypted. 
-            System.out.println("The Decrypted Plaintext");
+            // Logging the  decrypted Msg. 
+            System.out.println("The Decrypted Message");
 
-            for(int i=0; i<toBinary.length; i++)
+            for(int i=0; i<decryptedMsgList.length; i++)
             {
-                System.out.print(toBinary[i]+ "    ");
+                System.out.print(decryptedMsgList[i]+ "    ");
             }
             System.out.println("");
             System.out.println("");
             System.out.print("----------------------\n");
-        
+  
+            
         } 
         catch (Exception e) 
         {
@@ -257,95 +257,4 @@ public class NetworkAssign2 {
         }
         return decrytedMsg;
     }
-
-  
-    
-    
-    public static String[] makeMeBinary(int decryptedMsg[], ArrayList<Integer> s, int subSize) 
-    {
-
-        double count = Math.pow(2, subSize);
-        String bin[] = generateBinary((int) count);
-        int [] sumValues = getSumValues(bin, (int) count, subSize, s);
-        String [] binValues = getBinVaues(bin, (int) count, subSize, s);
-        String [] plainTextResult = new String[s.size()];
-        for (int i = 0; i < decryptedMsg.length; i++) 
-        {
-          
-            for(int j=0; j<sumValues.length; j++ )
-            {
-                   
-                if(decryptedMsg[i] == sumValues[j])
-                {
-                    plainTextResult[i]=binValues[j];
-                }
-            }
-        }
-      
-        StringBuilder text = new StringBuilder("0000");
-            for (int i = 0; i < decryptedMsg.length; i++) 
-            {
-          
-                for(int j=0; j<s.size(); j++ )
-                {
-                    if(decryptedMsg[i] == s.get(j))
-                    {
-                        text.setCharAt(j,'1');
-                        plainTextResult[i]=text.toString();
-                    
-                    }
-                }
-            }
-        return plainTextResult;
-    }
-
-    
-    public static String[] generateBinary(int count) 
-    {
-        String bin[] = new String[count];
-        for (int i = 0; i < count; i++) 
-        {
-            bin[i] = String.format("%04d",Integer.valueOf(Integer.toBinaryString(i)) );
-        }
-        return bin;
-    }
-    
-    public static int[] getSumValues(String[] bin, int count , int subSize , ArrayList<Integer>s)
-    {
-        int sum;
-        int result[] = new int[ count];
-        int value = 0;
-        for(int i = 0; i < bin.length; i++) 
-        {
-            sum = 0;
-            if (bin[i].length() == subSize) {
-                for (int j = 0; j < bin[i].length(); j++) 
-                {
-                    if (bin[i].charAt(j) == '1') 
-                    {
-                        sum = sum + s.get(j);
-                    }
-                }
-                result[value] = sum;
-                value++;
-            }
-        }
-        return result;
-    }
-    
-    
-      public static String[] getBinVaues(String[] bin, int count , int subSize , ArrayList<Integer> s)
-      {
-        String result[] = new String[count];
-        int value = 0;
-        for (int i = 0; i < bin.length; i++) 
-        {
-            if (bin[i].length() == subSize) 
-            {
-                result[value] = bin[i];
-                value++;
-            }
-        }
-        return result;
-    } 
 }
