@@ -116,10 +116,11 @@ public class NetworkAssign2 {
 
             // calculating the subsize of each octit of the plain text based on the length of Knapsack.
             int subSize = p.size()/H.length;
+            //System.out.print("heeeeeeeeeeeeeeer"+subSize);
             
             // Logging the Encryption Calculation.
             int index = 0;
-            for(int i=0;i<p.size();i+=subSize)
+            for(int i=0;i<subSize;i++)
             {
 
                 System.out.println("");
@@ -156,7 +157,7 @@ public class NetworkAssign2 {
             // Logging the final encrypted msg.
             System.out.println("The Encrypted Message");
 
-            for(int i=0; i<encryptedMsgList.length; i++)
+            for(int i=0; i<subSize; i++)
             {
                 System.out.print(encryptedMsgList[i]+ "    ");
             }
@@ -172,16 +173,16 @@ public class NetworkAssign2 {
             int decryptedMsgList [] = decrypt(encryptedMsgList,wInverse, n);
 
             
-
+            
 
             System.out.println("");
             System.out.println("Decryption:");
             System.out.println("----------------------");
 
             // Logging the decryption calculations
-            for(int i=0; i< H.length;i++)
+            for(int i=0; i< subSize;i++)
             {
-                System.out.println(H[i]+" * "+wInverse+" = "+ (H[i]+wInverse) + " % "+n+" = "+decryptedMsgList[i] );
+                System.out.println(H[i]+" * "+wInverse+" = "+ (H[i]+wInverse) + " % "+n+" = "+decryptedMsgList[i]);
             }
 
             System.out.println("");
@@ -190,14 +191,18 @@ public class NetworkAssign2 {
             // Logging the  decrypted Msg. 
             System.out.println("The Decrypted Message");
 
-            for(int i=0; i<decryptedMsgList.length; i++)
+            for(int i=0; i<subSize; i++)
             {
                 System.out.print(decryptedMsgList[i]+ "    ");
             }
             System.out.println("");
             System.out.println("");
             System.out.print("----------------------\n");
-  
+            System.out.println("");
+            System.out.println("");
+
+            
+
             
         } 
         catch (Exception e) 
@@ -233,7 +238,15 @@ public class NetworkAssign2 {
         int msg[] = new int[H.length];
         int indexOfencrptMsg = 0;
         int value;
-        int subSize = p.size()/H.length;
+        
+        /* the trick that solve the issue 
+            was to update the value of the subSize which represents the
+            number of partitions the plain text should be devided into
+            by making it equal to = plain.size / (plain.size / S.length)
+        
+        */
+        int mySubSize = p.size()/H.length;
+        int subSize = p.size()/mySubSize;
         for (int i = 0; i < p.size(); i += subSize) 
         {
             value = 0;
@@ -257,4 +270,17 @@ public class NetworkAssign2 {
         }
         return decrytedMsg;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
