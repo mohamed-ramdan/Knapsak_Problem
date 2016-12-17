@@ -169,7 +169,6 @@ public class NetworkAssign2 {
 
 
             // Decryption
-            ArrayList<Integer> decryptedMsg = new ArrayList<Integer>();
             int decryptedMsgList [] = decrypt(encryptedMsgList,wInverse, n);
 
             // convert the decryption to binary based on the private key S.
@@ -190,7 +189,7 @@ public class NetworkAssign2 {
             System.out.println("");
 
             // Logging the plain text decrypted. 
-            System.out.println("The Decrypted Message");
+            System.out.println("The Decrypted Plaintext");
 
             for(int i=0; i<toBinary.length; i++)
             {
@@ -224,26 +223,25 @@ public class NetworkAssign2 {
         }
         return H;
     }
+   
     
     
-    
-    
-    
+   
     public static int[] encrypt(ArrayList<Integer> p ,int H[])
     {
     
         int msg[] = new int[H.length];
         int indexOfencrptMsg = 0;
-        int x;
+        int value;
         int subSize = p.size()/H.length;
         for (int i = 0; i < p.size(); i += subSize) 
         {
-            x = 0;
+            value = 0;
             for (int j = 0; j < subSize; j++) 
             {
-                x = x + H[j] * p.get(i + j);
+                value = value + H[j] * p.get(i + j);
             }
-            msg[indexOfencrptMsg] = x;
+            msg[indexOfencrptMsg] = value;
             indexOfencrptMsg++;
         }
         return msg;
@@ -263,13 +261,13 @@ public class NetworkAssign2 {
   
     
     
-    public static String[] makeMeBinary(int decryptedMsg[], ArrayList<Integer> s, int m) 
+    public static String[] makeMeBinary(int decryptedMsg[], ArrayList<Integer> s, int subSize) 
     {
 
-        double count = Math.pow(2, m);
+        double count = Math.pow(2, subSize);
         String bin[] = generateBinary((int) count);
-        int [] sumValues = getSumValues(bin, (int) count, m, s);
-        String [] binValues = getBinVaues(bin, (int) count, m, s);
+        int [] sumValues = getSumValues(bin, (int) count, subSize, s);
+        String [] binValues = getBinVaues(bin, (int) count, subSize, s);
         String [] plainTextResult = new String[s.size()];
         for (int i = 0; i < decryptedMsg.length; i++) 
         {
@@ -312,15 +310,15 @@ public class NetworkAssign2 {
         return bin;
     }
     
-    public static int[] getSumValues(String[] bin, int count , int m , ArrayList<Integer>s)
+    public static int[] getSumValues(String[] bin, int count , int subSize , ArrayList<Integer>s)
     {
         int sum;
         int result[] = new int[ count];
-        int z = 0;
+        int value = 0;
         for(int i = 0; i < bin.length; i++) 
         {
             sum = 0;
-            if (bin[i].length() == m) {
+            if (bin[i].length() == subSize) {
                 for (int j = 0; j < bin[i].length(); j++) 
                 {
                     if (bin[i].charAt(j) == '1') 
@@ -328,26 +326,24 @@ public class NetworkAssign2 {
                         sum = sum + s.get(j);
                     }
                 }
-                result[z] = sum;
-                z++;
+                result[value] = sum;
+                value++;
             }
         }
         return result;
     }
     
     
-      public static String[] getBinVaues(String[] bin, int count , int m , ArrayList<Integer> s)
+      public static String[] getBinVaues(String[] bin, int count , int subSize , ArrayList<Integer> s)
       {
-        int sum;
         String result[] = new String[count];
-        int z = 0;
+        int value = 0;
         for (int i = 0; i < bin.length; i++) 
         {
-            sum = 0;
-            if (bin[i].length() == m) 
+            if (bin[i].length() == subSize) 
             {
-                result[z] = bin[i];
-                z++;
+                result[value] = bin[i];
+                value++;
             }
         }
         return result;
